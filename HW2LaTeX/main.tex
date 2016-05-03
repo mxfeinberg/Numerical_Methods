@@ -1,0 +1,84 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{caption}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{graphicx}
+\usepackage{advdate}
+\graphicspath{c:/Users/Max/Pictures}
+\title{AE 370: Homework 2}
+
+\author{Max A. Feinberg}
+
+\date{\AdvanceDate[-1]\today}
+
+\begin{document}
+\maketitle
+
+
+\section*{Problem 2}
+
+\begin{eqnarray*}
+f(x_{k}) & = & \begin{bmatrix}
+x^{2} + y - 4.5 \\
+\sqrt[]{3} x - y^{2} - 0.75
+\end{bmatrix}\\
+\nabla f(x_{k}) & = & \begin{bmatrix}
+2x & 1 \\
+\sqrt[]{3} & -2y
+\end{bmatrix}\\
+\nabla f(x_{k}) \Delta x_{k} & = & -f(x_{k})\\
+\Delta x_{k} & = & -\nabla f(x_{k})^{-1} f(x_{k})\\
+\Delta x_{k} & = & -\begin{bmatrix}
+2x & 1 \\
+\sqrt[]{3} & -2y
+\end{bmatrix}^{-1}
+\begin{bmatrix}
+x^{2} + y - 4.5 \\
+\sqrt[]{3} x - y^{2} - 0.75
+\end{bmatrix}\\
+\Delta x_{k} & = & -\begin{bmatrix}
+\frac{2y}{4xy + \sqrt[]{3}} & \frac{1}{4xy + \sqrt[]{3}} \\
+\frac{\sqrt[]{3}}{4xy + \sqrt[]{3}} & \frac{-2x}{4xy + \sqrt[]{3}}
+\end{bmatrix}
+\begin{bmatrix}
+x^{2} + y - 4.5 \\
+\sqrt[]{3} x - y^{2} - 0.75
+\end{bmatrix}\\
+\Delta x_{k} & = & \begin{bmatrix}
+\frac{-2y}{4xy + \sqrt[]{3}} & \frac{-1}{4xy + \sqrt[]{3}} \\
+\frac{-\sqrt[]{3}}{4xy + \sqrt[]{3}} & \frac{2x}{4xy + \sqrt[]{3}}
+\end{bmatrix}
+\begin{bmatrix}
+x^{2} + y - 4.5 \\
+\sqrt[]{3} x - y^{2} - 0.75
+\end{bmatrix}\\
+\Delta x_{k} & = & \begin{bmatrix}
+\frac{y^{2} - \ \sqrt[]{3}+\frac{3}{4}}{4xy + \sqrt[]{3}} - \frac{2y(x^{2} + y - \frac{9}{2})}{4xy + \sqrt[]{3}}\\
+\frac{-2x(y^{2} - \ \sqrt[]{3} +\frac{3}{4})}{4xy + \sqrt[]{3}} - \frac{\sqrt[]{3}(x^{2} + y - \frac{9}{2})}{4xy + \sqrt[]{3}}
+\end{bmatrix}\\
+\Delta x_{k} & = & \begin{bmatrix}
+\frac{1 - \ \sqrt[]{3}+\frac{3}{4}}{4 + \sqrt[]{3}} - \frac{2(1 + 1 - \frac{9}{2})}{4 + \sqrt[]{3}}\\
+\frac{-2(1 - \ \sqrt[]{3} +\frac{3}{4})}{4 + \sqrt[]{3}} - \frac{\sqrt[]{3}(1 + 1 - \frac{9}{2})}{4 + \sqrt[]{3}}
+\end{bmatrix}\\
+\Delta x_{k} & = & \begin{bmatrix}
+\frac{120-43\ \sqrt[]{3}}{52}\\
+\frac{43\ \sqrt[]{3}-55}{26}
+\end{bmatrix}\\
+\Delta x_{k}(1,1) & = & \begin{bmatrix}
+0.875419524510\\
+0.749160950979\\
+\end{bmatrix}\\
+\Delta x_{k+1} & = & x_{k}+\Delta x_{k}\\
+\Delta x_{k+1} & = & \begin{bmatrix}
+1.875419524510\\
+1.749160950979\\
+\end{bmatrix}
+\end{eqnarray*}
+
+
+\end{document}

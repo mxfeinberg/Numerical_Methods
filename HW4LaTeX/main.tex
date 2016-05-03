@@ -1,0 +1,330 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{enumerate}
+\usepackage{caption}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{graphicx}
+\usepackage{advdate}
+\graphicspath{c:/Users/Max/Pictures}
+\title{AE 370: Homework 4}
+
+\author{Max A. Feinberg}
+
+\date{\AdvanceDate[-1]\today}
+
+\begin{document}
+\maketitle
+
+\section*{Problem 1}
+Governing Differential Equations:
+
+\begin{eqnarray*}
+\frac{\partial ^{2} \Phi}{\partial x^{2}} + \frac{\partial ^{2} \Phi}{\partial x^{2}} & = & 0\\
+\end{eqnarray*}
+
+\textbf{a)}
+Let us derive the discretized form of the above PDE using Taylor Series expansions.
+\begin{eqnarray*}
+f^{k}_{i} & = & f(x)  = f^{k}_{i}\\
+f^{k}_{i+1} & = & f(x + \Delta x)  = f^{k}_{i} +\Delta x (\frac{\partial f}{\partial x})^{k}_{i} + \frac{(\Delta x)^{2}}{2} (\frac{\partial^{2} f}{\partial x^{2}})^{k}_{i} + \frac{(\Delta x)^{3}}{6} (\frac{\partial^{3} f}{\partial x^{3}})^{k}_{i}\\
+& & +\frac{(\Delta x)^{4}}{24} (\frac{\partial^{4} f}{\partial x^{4}})^{k}_{i} + O(\Delta x^{5})\\
+f^{k}_{i-1} & = & f(x + \Delta x)  = f^{k}_{i}-\Delta x (\frac{\partial f}{\partial x})^{k}_{i} + \frac{(\Delta x)^{2}}{2} (\frac{\partial^{2} f}{\partial x^{2}})^{k}_{i} - \frac{(\Delta x)^{3}}{6} (\frac{\partial^{3} f}{\partial x^{3}})^{k}_{i}\\
+& & +\frac{(\Delta x)^{4}}{24} (\frac{\partial^{4} f}{\partial x^{4}})^{k}_{i} + O(\Delta x^{5})\\
+\end{eqnarray*}
+using a linear combination of the above expansions, we will find our discretization.
+\begin{eqnarray*}
+(\frac{\partial ^{2} \Phi }{\partial x^{2}})^{k}_{i}& = & \frac{a \Phi^{k+1}_{i} + b \Phi^{k}_{i} + c \Phi^{k-1}_{i} }{\Delta x^{2}} + O(\Delta x^{2})\\
+(\frac{\partial ^{2} \Phi }{\partial y^{2}})^{k}_{i}& = & \frac{a \Phi^{k}_{i+1} + b \Phi^{k}_{i} + c \Phi^{k}_{i-1} }{\Delta y^{2}} + O(\Delta y^{2})\\
+\end{eqnarray*}
+\begin{eqnarray*}
+a + b + c & = & 0 \\
+a - c & = & 0 \\
+\frac{a}{2} + \frac{c}{2} & = & 1 \\
+\end{eqnarray*}
+\begin{eqnarray*}
+a = 1, \ b = -2, \ c = 1\\
+\end{eqnarray*}
+Substituting these equations into the governing differential equation yields the following:
+\begin{eqnarray*}
+\frac{ \Phi^{k+1}_{i} - 2 \Phi^{k}_{i} + \Phi^{k-1}_{i} }{\Delta x^{2}} + \frac{ \Phi^{k}_{i+1} - 2 \Phi^{k}_{i} + \Phi^{k}_{i-1} }{\Delta y^{2}} & = & 0\\
+\end{eqnarray*}
+\begin{eqnarray*}
+\frac{1}{\Delta x^{2}} \Phi^{k+1}_{i} + \frac{1}{\Delta y^{2}} \Phi^{k}_{i+1} & = & \frac{1}{\Delta x^{2}}(2\Phi^{k}_{i}-\Phi^{k-1}_{i}) + \frac{1}{\Delta y^{2}}(2\Phi^{k}_{i}-\Phi^{k}_{i-1})\\
+\end{eqnarray*}
+\textbf{b)} The grid is labeled with $2N_{x}$ grid spacings along the sum of AC and DE, and it is labeled with $2N_{y}$ grid spacings along the sum of CD and FG. The Corners are defined with coordinates as follows: $$A \ (1, 1), \ B \ (1, 2N_{y}+1), \ C \ (N_{x}+1, 1), \ D \ (N_{x}+1, N_{y}+1), \ E \ (N_{x}+1, 2N_{y}+1)$$\\
+$$F \ (2N_{x}+1,N_{y}+1), \ G \ (2N_{x}+1, 2N_{y}+1$$
+
+\textbf{c)} See attached code
+
+\textbf{d)} See attached code and plots
+
+\textbf{e)} 
+
+The convergence plot in the vicinity of the corner can be seen on the graph labeled Pressure Distribution Along Side CD. A large number of discretizations are clearly required to accurately approximate pressure at the corner.
+\section*{Problem 2}
+Governing Differential Equations:
+
+\begin{eqnarray*}
+EI\frac{\partial ^{4} w}{\partial x^{4}} & = & q(x,t)+\rho A \frac{\partial ^{2} w}{\partial t^{2}} + \eta \frac{\partial w}{\partial t} \\
+\end{eqnarray*}
+
+for $0 \leq x \leq L$\\
+
+Boundary Conditions:
+
+\begin{eqnarray*}
+w(0,t) & = & 0\\
+\frac{\partial w(0,t)}{\partial x} & = & 0\\
+w(L,t) & = & 0\\
+EI\frac{\partial ^{2}w(L,t)}{\partial x^{2}} & = & 0\\
+\end{eqnarray*}
+
+Initial Conditions:
+
+\begin{eqnarray*}
+w(x,0) & = & \frac{\partial w(x,0)}{\partial t}  =   0\\
+\end{eqnarray*}
+
+\pagebreak
+
+\textbf{a)}
+
+We shall now derive the second-order central space central time (CSCT) finite difference discretization of the governing differential equation Let us consider the following taylor series expansions:
+\begin{eqnarray*}
+f^{k}_{i} & = & f(x)  = f^{k}_{i}\\
+f^{k}_{i+1} & = & f(x + \Delta x)  = f^{k}_{i} +\Delta x (\frac{\partial f}{\partial x})^{k}_{i} + \frac{(\Delta x)^{2}}{2} (\frac{\partial^{2} f}{\partial x^{2}})^{k}_{i} + \frac{(\Delta x)^{3}}{6} (\frac{\partial^{3} f}{\partial x^{3}})^{k}_{i}\\
+& & +\frac{(\Delta x)^{4}}{24} (\frac{\partial^{4} f}{\partial x^{4}})^{k}_{i} + O(\Delta x^{5})\\
+f^{k}_{i-1} & = & f(x + \Delta x)  = f^{k}_{i}-\Delta x (\frac{\partial f}{\partial x})^{k}_{i} + \frac{(\Delta x)^{2}}{2} (\frac{\partial^{2} f}{\partial x^{2}})^{k}_{i} - \frac{(\Delta x)^{3}}{6} (\frac{\partial^{3} f}{\partial x^{3}})^{k}_{i}\\
+& & +\frac{(\Delta x)^{4}}{24} (\frac{\partial^{4} f}{\partial x^{4}})^{k}_{i} + O(\Delta x^{5})\\
+f^{k}_{i+2} & = & f(x + 2\Delta x)  = f^{k}_{i}+ 2 \Delta x (\frac{\partial f}{\partial x})^{k}_{i}+\frac{4\Delta x^{2}}{2}(\frac{\partial ^{2} f}{\partial x^{2}})^{k}_{i}+\frac{8\Delta x^{3}}{6}(\frac{\partial ^{3} f}{\partial x^{3}})^{k}_{i}\\
+& & +\frac{16\Delta x^{4}}{24}(\frac{\partial ^{4} f}{\partial x^{4}})^{k}_{i} + O(\Delta x^{5})\\
+f^{k}_{i-2} & = & f(x + 2\Delta x)  = f^{k}_{i} - 2 \Delta x (\frac{\partial f}{\partial x})^{k}_{i}+\frac{4\Delta x^{2}}{2}(\frac{\partial ^{2} f}{\partial x^{2}})^{k}_{i}-\frac{8\Delta x^{3}}{6}(\frac{\partial ^{3} f}{\partial x^{3}})^{k}_{i}\\
+& & +\frac{16\Delta x^{4}}{24}(\frac{\partial ^{4} f}{\partial x^{4}})^{k}_{i} + O(\Delta x^{5})\\
+\end{eqnarray*}
+
+Using the above taylor series expansions, we will now find a formula for the $4^{th}$ order term.
+\begin{eqnarray*}
+(\frac{\partial ^{4} w}{\partial x^{4}})^{k}_{i} & = & \frac{a w^{k}_{i+2} + b w^{k}_{i+1} + c w^{k}_{i} + d w^{k}_{i-1} + e w^{k}_{i-2}}{\Delta x^{4}} + O(\Delta x ^{2})\\
+\end{eqnarray*}
+We will now calculate the coefficients:
+\begin{eqnarray*}
+a + b + c + d + e & = & 0\\
+2a + b - d - 2 e & = & 0\\
+\frac{4a}{2} + \frac{b}{2} + \frac{d}{2} + \frac{4e}{2}  & = &  0\\
+\frac{8a}{6} + \frac{b}{6} - \frac{d}{6} - \frac{8e}{6} & = & 0\\
+\frac{16a}{24} + \frac{b}{24} + \frac{d}{24} - \frac{16e}{24} & = & 1\\
+\end{eqnarray*}
+By solving the system of five equations above we find the following:
+\begin{eqnarray*}
+a = 1, \ b = -4, \ c = 6, \ d = -4, \ e = 1\\
+\end{eqnarray*}
+This yields:
+\begin{eqnarray*}
+(\frac{\partial ^{4} w}{\partial x^{4}})^{k}_{i} & = & \frac{w^{k}_{i+2} - 4 w^{k}_{i+1} + 6 w^{k}_{i} - 4 w^{k}_{i-1} +  w^{k}_{i-2}}{\Delta x^{4}} + O(\Delta x ^{2})\\
+\end{eqnarray*}
+We will now make the equation implicit.
+\begin{eqnarray*}
+(\frac{\partial ^{4} w}{\partial x^{4}})^{k}_{i} & = & \frac{1}{2}   \lbrack (\frac{\partial ^{4} w}{\partial x^{4}})^{k-1}_{i} + \frac{\partial ^{4} w}{\partial x^{4}})^{k+1}_{i} \rbrack \\
+(\frac{\partial ^{4} w}{\partial x^{4}})^{k}_{i} & = & \frac{1}{2} \lbrack \frac{w^{k-1}_{i+2} - 4 w^{k-1}_{i+1} + 6 w^{k-1}_{i} - 4 w^{k-1}_{i-1} +  w^{k-1}_{i-2}}{\Delta x^{4}} + \frac{w^{k+1}_{i+2} - 4 w^{k+1}_{i+1} + 6 w^{k+1}_{i} - 4 w^{k+1}_{i-1} +  w^{k+1}_{i-2}}{\Delta x^{4}} \rbrack \\
+\end{eqnarray*}
+Next, we will derive the equations for the lower order terms.
+\begin{eqnarray*}
+(\frac{\partial ^{2} w }{\partial t^{2}})^{k}_{i}& = & \frac{a w^{k+1}_{i} + b w^{k}_{i} + c w^{k-1}_{i} }{\Delta t^{2}} + O(\Delta t^{2})\\
+\end{eqnarray*}
+\begin{eqnarray*}
+a + b + c & = & 0 \\
+a - c & = & 0 \\
+\frac{a}{2} + \frac{c}{2} & = & 1 \\
+\end{eqnarray*}
+\begin{eqnarray*}
+a = 1, \ b = -2, \ c = 1\\
+\end{eqnarray*}
+\begin{eqnarray*}
+(\frac{\partial ^{2} w }{\partial t^{2}})^{k}_{i}& = & \frac{w^{k+1}_{i} - 2 w^{k}_{i} + w^{k-1}_{i} }{\Delta t^{2}} + O(\Delta t^{2})\\
+\end{eqnarray*}
+And finally:
+\begin{eqnarray*}
+(\frac{\partial w }{\partial t})^{k}_{i}& = & \frac{a w^{k+1}_{i} + b w^{k-1}_{i} }{\Delta t} + O(\Delta t^{2})\\
+\end{eqnarray*}
+\begin{eqnarray*}
+a + b  & = & 0 \\
+a - b & = & 1 \\
+\end{eqnarray*}
+\begin{eqnarray*}
+a = \frac{1}{2}, \ b = -\frac{1}{2}\\
+\end{eqnarray*}
+\begin{eqnarray*}
+(\frac{\partial w }{\partial t})^{k}_{i}& = & \frac{w^{k+1}_{i} - w^{k-1}_{i} }{2 \Delta t} + O(\Delta t^{2})\\
+\end{eqnarray*}
+\pagebreak
+
+Using these discretized equations, we will not re-write the governing differential equation:
+\begin{eqnarray*}
+EI\frac{\partial ^{4} w}{\partial x^{4}} & = & q(x,t)+\rho A \frac{\partial ^{2} w}{\partial t^{2}} + \eta \frac{\partial w}{\partial t} \\
+\end{eqnarray*}
+\begin{eqnarray*}
+& &\frac{EI}{2} \lbrack \frac{w^{k-1}_{i+2} - 4 w^{k-1}_{i+1} + 6 w^{k-1}_{i} - 4 w^{k-1}_{i-1} +  w^{k-1}_{i-2}}{\Delta x^{4}} + \frac{w^{k+1}_{i+2} - 4 w^{k+1}_{i+1} + 6 w^{k+1}_{i} - 4 w^{k+1}_{i-1} +  w^{k+1}_{i-2}}{\Delta x^{4}} \rbrack  =  q^{k}_{i} \\
+& & +\rho A (\frac{w^{k+1}_{i} - 2 w^{k}_{i} + w^{k-1}_{i} }{\Delta t^{2}}) + \eta(\frac{w^{k+1}_{i} - w^{k-1}_{i} }{2 \Delta t})   \\
+\end{eqnarray*}
+
+\begin{eqnarray*}
+& & \frac{EI}{2\Delta x^{4}}w^{k+1}_{i-2} - \frac{4EI}{2\Delta x^{4}}w^{k+1}_{i-1} + (\frac{6EI}{2\Delta x^{4}} - \frac{\rho A}{\Delta t^{2}} - \frac{\eta}{2\Delta t})w^{k+1}_{i}-\frac{4EI}{2\Delta x^{4}}w^{k+1}_{i+1}+\frac{EI}{2\Delta x^{4}}w^{k+1}_{i+2} = q^{k}_{i}\\
+& & \frac{EI}{2\Delta x^{4}}(w^{k-1}_{i-2} - 4 w^{k-1}_{i-1} + 6 w^{k-1}_{i} - 4 w^{k-1}_{i+1} +  w^{k-1}_{i+2}) + \frac{\rho A}{\Delta t^{2}}(w^{k-1}_{i}-2w^{k}_{i}) - \frac{\eta}{2\Delta t}w^{k-1}_{i} \\
+\end{eqnarray*}
+\textbf{b)}
+We will now apply the boundary conditions and the ghost cell approach to the equation we formulated in part a. \\
+\begin{eqnarray*}
+w(0,t) & = & w^{k}_{1}= 0\\
+\end{eqnarray*}
+Let us consider the left most boundary when i = 2:
+\begin{eqnarray*}
+& & \frac{EI}{2\Delta x^{4}}w^{k+1}_{0} - \frac{4EI}{2\Delta x^{4}}w^{k+1}_{1} + (\frac{6EI}{2\Delta x^{4}} - \frac{\rho A}{\Delta t^{2}} - \frac{\eta}{2\Delta t})w^{k+1}_{2}-\frac{4EI}{2\Delta x^{4}}w^{k+1}_{3}+\frac{EI}{2\Delta x^{4}}w^{k+1}_{4} = q^{k}_{2}\\
+& & \frac{EI}{2\Delta x^{4}}(w^{k-1}_{0} - 4 w^{k-1}_{1} + 6 w^{k-1}_{2} - 4 w^{k-1}_{3} +  w^{k-1}_{4}) + \frac{\rho A}{\Delta t^{2}}(w^{k-1}_{2}-2w^{k}_{2}) - \frac{\eta}{2\Delta t}w^{k-1}_{2} \\
+\end{eqnarray*}
+\begin{eqnarray*}
+& & \frac{EI}{2\Delta x^{4}}w^{k+1}_{0} + (\frac{6EI}{2\Delta x^{4}} - \frac{\rho A}{\Delta t^{2}} - \frac{\eta}{2\Delta t})w^{k+1}_{2}-\frac{4EI}{2\Delta x^{4}}w^{k+1}_{3}+\frac{EI}{2\Delta x^{4}}w^{k+1}_{4} = q^{k}_{2}\\
+& & \frac{EI}{2\Delta x^{4}}(w^{k-1}_{0} + 6 w^{k-1}_{2} - 4 w^{k-1}_{3} +  w^{k-1}_{4}) + \frac{\rho A}{\Delta t^{2}}(w^{k-1}_{2}-2w^{k}_{2}) - \frac{\eta}{2\Delta t}w^{k-1}_{2} \\
+\end{eqnarray*}
+Now we will consider the right most boundary
+\begin{eqnarray*}
+w(L,t) & = & w^{k}_{n+1}= 0\\
+\end{eqnarray*}
+i = n:
+\begin{eqnarray*}
+& & \frac{EI}{2\Delta x^{4}}w^{k+1}_{n-2} - \frac{4EI}{2\Delta x^{4}}w^{k+1}_{n-1} + (\frac{6EI}{2\Delta x^{4}} - \frac{\rho A}{\Delta t^{2}} - \frac{\eta}{2\Delta t})w^{k+1}_{n}-\frac{4EI}{2\Delta x^{4}}w^{k+1}_{n+1}+\frac{EI}{2\Delta x^{4}}w^{k+1}_{n+2} = q^{k}_{n}\\
+& & \frac{EI}{2\Delta x^{4}}(w^{k-1}_{n-2} - 4 w^{k-1}_{n-1} + 6 w^{k-1}_{n} - 4 w^{k-1}_{n+1} +  w^{k-1}_{n+2}) + \frac{\rho A}{\Delta t^{2}}(w^{k-1}_{n}-2w^{k}_{n}) - \frac{\eta}{2\Delta t}w^{k-1}_{n} \\
+\end{eqnarray*}
+\begin{eqnarray*}
+& & \frac{EI}{2\Delta x^{4}}w^{k+1}_{n-2} - \frac{4EI}{2\Delta x^{4}}w^{k+1}_{n-1} + (\frac{6EI}{2\Delta x^{4}} - \frac{\rho A}{\Delta t^{2}} - \frac{\eta}{2\Delta t})w^{k+1}_{n}+\frac{EI}{2\Delta x^{4}}w^{k+1}_{n+2} = q^{k}_{n}\\
+& & \frac{EI}{2\Delta x^{4}}(w^{k-1}_{n-2} - 4 w^{k-1}_{n-1} + 6 w^{k-1}_{n} +  w^{k-1}_{n+2}) + \frac{\rho A}{\Delta t^{2}}(w^{k-1}_{n}-2w^{k}_{n}) - \frac{\eta}{2\Delta t}w^{k-1}_{n} \\
+\end{eqnarray*}
+We will now apply the first derivative boundary condition:
+\begin{eqnarray*}
+\frac{\partial w(0,t)}{\partial x} & = & (\frac{\partial w}{\partial x})^{k}_{i} = 0\\
+\end{eqnarray*}
+At i = 2, this results in the following:
+\begin{eqnarray*}
+(\frac{\partial w}{\partial x})^{k}_{2} & = & 0\\
+(\frac{\partial w}{\partial x})^{k}_{2} & = & \frac{w^{k}_{2}-w^{k}_{0}}{2\Delta x} = 0\\
+w^{k}_{2} & = & w^{k}_{0}\\
+\end{eqnarray*}
+We will now substitute all $w_{0}$ terms with $w_{2}$.
+\begin{eqnarray*}
+& & \frac{EI}{2\Delta x^{4}}w^{k+1}_{0} + (\frac{6EI}{2\Delta x^{4}} - \frac{\rho A}{\Delta t^{2}} - \frac{\eta}{2\Delta t})w^{k+1}_{2}-\frac{4EI}{2\Delta x^{4}}w^{k+1}_{3}+\frac{EI}{2\Delta x^{4}}w^{k+1}_{4} = q^{k}_{2}\\
+& & \frac{EI}{2\Delta x^{4}}(w^{k-1}_{0} + 6 w^{k-1}_{2} - 4 w^{k-1}_{3} +  w^{k-1}_{4}) + \frac{\rho A}{\Delta t^{2}}(w^{k-1}_{2}-2w^{k}_{2}) - \frac{\eta}{2\Delta t}w^{k-1}_{2} \\
+\end{eqnarray*}
+\begin{eqnarray*}
+& & \frac{EI}{2\Delta x^{4}}w^{k+1}_{2} + (\frac{6EI}{2\Delta x^{4}} - \frac{\rho A}{\Delta t^{2}} - \frac{\eta}{2\Delta t})w^{k+1}_{2}-\frac{4EI}{2\Delta x^{4}}w^{k+1}_{3}+\frac{EI}{2\Delta x^{4}}w^{k+1}_{4} = q^{k}_{2}\\
+& & \frac{EI}{2\Delta x^{4}}(w^{k-1}_{2} + 6 w^{k-1}_{2} - 4 w^{k-1}_{3} +  w^{k-1}_{4}) + \frac{\rho A}{\Delta t^{2}}(w^{k-1}_{2}-2w^{k}_{2}) - \frac{\eta}{2\Delta t}w^{k-1}_{2} \\
+\end{eqnarray*}
+\begin{eqnarray*}
+& & \frac{EI}{2\Delta x^{4}}w^{k+1}_{2} +(\frac{7EI}{2\Delta x^{4}} - \frac{\rho A}{\Delta t^{2}} - \frac{\eta}{2\Delta t})w^{k+1}_{2}-\frac{4EI}{2\Delta x^{4}}w^{k+1}_{3}+\frac{EI}{2\Delta x^{4}}w^{k+1}_{4} = q^{k}_{2}\\
+& & \frac{EI}{2\Delta x^{4}}(7 w^{k-1}_{2} - 4 w^{k-1}_{3} +  w^{k-1}_{4}) + \frac{\rho A}{\Delta t^{2}}(w^{k-1}_{2}-2w^{k}_{2}) - \frac{\eta}{2\Delta t}w^{k-1}_{2} \\
+\end{eqnarray*}
+Finally, we will apply the second derivative boundary condition:
+\begin{eqnarray*}
+EI\frac{\partial ^{2}w(L,t)}{\partial x^{2}} & = & 0\\
+\frac{\partial ^{2}w(L,t)}{\partial x^{2}} & = & (\frac{\partial^{2} w}{\partial x^{2}})^{k}_{i}= 0\\
+\end{eqnarray*}
+At i = n, we get the following:
+\begin{eqnarray*}
+(\frac{\partial^{2} w}{\partial x^{2}})^{k}_{n } & = & \frac{w^{k}_{n}-2 w^{k}_{n+1}+w^{k}_{n+2}}{\Delta x^{2}} = 0\\
+w^{k}_{n+2} & = & 2 w^{k}_{n+1}-w^{k}_{n}
+\end{eqnarray*}
+Using this substitution, we get the following:
+\begin{eqnarray*}
+& & \frac{EI}{2\Delta x^{4}}w^{k+1}_{n-2} - \frac{4EI}{2\Delta x^{4}}w^{k+1}_{n-1} + (\frac{6EI}{2\Delta x^{4}} - \frac{\rho A}{\Delta t^{2}} - \frac{\eta}{2\Delta t})w^{k+1}_{n}+\frac{EI}{2\Delta x^{4}}(2 w^{k+1}_{n+1}-w^{k+1}_{n}) = q^{k}_{n}\\
+& & \frac{EI}{2\Delta x^{4}}(w^{k-1}_{n-2} - 4 w^{k-1}_{n-1} + 6 w^{k-1}_{n} +  (2 w^{k-1}_{n+1}-w^{k-1}_{n})) + \frac{\rho A}{\Delta t^{2}}(w^{k-1}_{n}-2w^{k}_{n}) - \frac{\eta}{2\Delta t}w^{k-1}_{n} \\
+\end{eqnarray*}
+\textbf{c)}
+Using the Taylor Series expansion results found in part a, we have the following:
+\begin{eqnarray*}
+(\frac{\partial ^{4} w}{\partial x^{4}})^{k}_{i} & = & \frac{w^{k}_{i+2} - 4 w^{k}_{i+1} + 6 w^{k}_{i} - 4 w^{k}_{i-1} +  w^{k}_{i-2}}{\Delta x^{4}} + O(\Delta x ^{2})\\
+\end{eqnarray*}
+\begin{eqnarray*}
+(\frac{\partial ^{2} w }{\partial t^{2}})^{k}_{i}& = & \frac{w^{k+1}_{i} - 2 w^{k}_{i} + w^{k-1}_{i} }{\Delta t^{2}} + O(\Delta t^{2})\\
+\end{eqnarray*}
+\begin{eqnarray*}
+(\frac{\partial w }{\partial t})^{k}_{i}& = & \frac{w^{k+1}_{i} - w^{k-1}_{i} }{2 \Delta t} + O(\Delta t^{2})\\
+\end{eqnarray*}
+We will now substitute the above equations into the governing differential equation:
+\begin{eqnarray*}
+EI\frac{\partial ^{4} w}{\partial x^{4}} & = & q(x,t)+\rho A \frac{\partial ^{2} w}{\partial t^{2}} + \eta \frac{\partial w}{\partial t} \\
+\end{eqnarray*}
+\begin{eqnarray*}
+& & EI(\frac{w^{k}_{i+2} - 4 w^{k}_{i+1} + 6 w^{k}_{i} - 4 w^{k}_{i-1} +  w^{k}_{i-2}}{\Delta x^{4}}) = q^{k}_{i}+\rho A (\frac{w^{k+1}_{i} - 2 w^{k}_{i} + w^{k-1}_{i} }{\Delta t^{2}}) + \eta (\frac{w^{k+1}_{i} - w^{k-1}_{i} }{2 \Delta t}) \\
+\end{eqnarray*}
+\begin{eqnarray*}
+& & (\frac{\rho A}{\Delta t^{2}}+\frac{\eta}{2\Delta t})w^{k+1}_{i} = -q^{k}_{i} + \frac{EI}{\Delta x^{4}}(w^{k}_{i-2}-4w^{k}_{i-1}+6w^{k}_{i}-4w^{k}_{i+1}+w^{k}_{i+2}) + \frac{\rho A}{\Delta t^{2}}(2w^{k}_{i}-w^{k-1}_{i})\\
+& & + \frac{\eta}{2\Delta t}w^{k-1}_{i}\\
+\end{eqnarray*}
+We will now apply the boundary conditions:
+\begin{eqnarray*}
+w(0,t) & = & w^{k}_{1}= 0\\
+\end{eqnarray*}
+Let us consider the left most boundary when i = 2:
+\begin{eqnarray*}
+& & (\frac{\rho A}{\Delta t^{2}}+\frac{\eta}{2\Delta t})w^{k+1}_{2} = -q^{k}_{2} + \frac{EI}{\Delta x^{4}}(w^{k}_{0}-4w^{k}_{1}+6w^{k}_{2}-4w^{k}_{3}+w^{k}_{4}) + \frac{\rho A}{\Delta t^{2}}(2w^{k}_{2}-w^{k-1}_{2})\\
+& & + \frac{\eta}{2\Delta t}w^{k-1}_{2}\\
+\end{eqnarray*}
+\begin{eqnarray*}
+& & (\frac{\rho A}{\Delta t^{2}}+\frac{\eta}{2\Delta t})w^{k+1}_{2} = -q^{k}_{2} + \frac{EI}{\Delta x^{4}}(w^{k}_{0}+6w^{k}_{2}-4w^{k}_{3}+w^{k}_{4}) + \frac{\rho A}{\Delta t^{2}}(2w^{k}_{2}-w^{k-1}_{2})\\
+& & + \frac{\eta}{2\Delta t}w^{k-1}_{2}\\
+\end{eqnarray*}
+Now we will consider the right most boundary
+\begin{eqnarray*}
+w(L,t) & = & w^{k}_{n+1}= 0\\
+\end{eqnarray*}
+i = n:
+\begin{eqnarray*}
+& & (\frac{\rho A}{\Delta t^{2}}+\frac{\eta}{2\Delta t})w^{k+1}_{n} = -q^{k}_{n} + \frac{EI}{\Delta x^{4}}(w^{k}_{n-2}-4w^{k}_{n-1}+6w^{k}_{n}-4w^{k}_{n+1}+w^{k}_{n+2}) + \frac{\rho A}{\Delta t^{2}}(2w^{k}_{n}-w^{k-1}_{n})\\
+& & + \frac{\eta}{2\Delta t}w^{k-1}_{n}\\
+\end{eqnarray*}
+\begin{eqnarray*}
+& & (\frac{\rho A}{\Delta t^{2}}+\frac{\eta}{2\Delta t})w^{k+1}_{n} = -q^{k}_{n} + \frac{EI}{\Delta x^{4}}(w^{k}_{n-2}-4w^{k}_{n-1}+6w^{k}_{n}+w^{k}_{n+2}) + \frac{\rho A}{\Delta t^{2}}(2w^{k}_{n}-w^{k-1}_{n})\\
+& & + \frac{\eta}{2\Delta t}w^{k-1}_{n}\\
+\end{eqnarray*}
+now we will consider the first derivative boundary condition:
+\begin{eqnarray*}
+\frac{\partial w(0,t)}{\partial x} & = & (\frac{\partial w}{\partial x})^{k}_{i} = 0\\
+\end{eqnarray*}
+At i = 2, this results in the following:
+\begin{eqnarray*}
+(\frac{\partial w}{\partial x})^{k}_{2} & = & 0\\
+(\frac{\partial w}{\partial x})^{k}_{2} & = & \frac{w^{k}_{2}-w^{k}_{0}}{2\Delta x} = 0\\
+w^{k}_{2} & = & w^{k}_{0}\\
+\end{eqnarray*}
+We will now substitute all $w_{0}$ terms with $w_{2}$.
+\begin{eqnarray*}
+& & (\frac{\rho A}{\Delta t^{2}}+\frac{\eta}{2\Delta t})w^{k+1}_{2} = -q^{k}_{2} + \frac{EI}{\Delta x^{4}}(w^{k}_{2}+6w^{k}_{2}-4w^{k}_{3}+w^{k}_{4}) + \frac{\rho A}{\Delta t^{2}}(2w^{k}_{2}-w^{k-1}_{2})\\
+& & + \frac{\eta}{2\Delta t}w^{k-1}_{2}\\
+\end{eqnarray*}
+\begin{eqnarray*}
+& & (\frac{\rho A}{\Delta t^{2}}+\frac{\eta}{2\Delta t})w^{k+1}_{2} = -q^{k}_{2} + \frac{EI}{\Delta x^{4}}(7w^{k}_{2}-4w^{k}_{3}+w^{k}_{4}) + \frac{\rho A}{\Delta t^{2}}(2w^{k}_{2}-w^{k-1}_{2})\\
+& & + \frac{\eta}{2\Delta t}w^{k-1}_{2}\\
+\end{eqnarray*}
+Finally, we will consider the second derivative boundary condition:
+\begin{eqnarray*}
+EI\frac{\partial ^{2}w(L,t)}{\partial x^{2}} & = & 0\\
+\frac{\partial ^{2}w(L,t)}{\partial x^{2}} & = & (\frac{\partial^{2} w}{\partial x^{2}})^{k}_{i}= 0\\
+\end{eqnarray*}
+At i = n, we get the following:
+\begin{eqnarray*}
+(\frac{\partial^{2} w}{\partial x^{2}})^{k}_{n } & = & \frac{w^{k}_{n}-2 w^{k}_{n+1}+w^{k}_{n+2}}{\Delta x^{2}} = 0\\
+w^{k}_{n+2} & = & 2 w^{k}_{n+1}-w^{k}_{n}
+\end{eqnarray*}
+Using this substitution, we get the following:
+\begin{eqnarray*}
+& & (\frac{\rho A}{\Delta t^{2}}+\frac{\eta}{2\Delta t})w^{k+1}_{n} = -q^{k}_{n} + \frac{EI}{\Delta x^{4}}(w^{k}_{n-2}-4w^{k}_{n-1}+6w^{k}_{n}+(2 w^{k}_{n+1}-w^{k}_{n})) + \frac{\rho A}{\Delta t^{2}}(2w^{k}_{n}-w^{k-1}_{n})\\
+& & + \frac{\eta}{2\Delta t}w^{k-1}_{n}\\
+\end{eqnarray*}
+and further:
+\begin{eqnarray*}
+& & (\frac{\rho A}{\Delta t^{2}}+\frac{\eta}{2\Delta t})w^{k+1}_{n} = -q^{k}_{n} + \frac{EI}{\Delta x^{4}}(w^{k}_{n-2}-4w^{k}_{n-1}+6w^{k}_{n}+(2 (2 w^{k}_{n}-w^{k}_{n-1})-w^{k}_{n})) + \frac{\rho A}{\Delta t^{2}}(2w^{k}_{n}-w^{k-1}_{n})\\
+& & + \frac{\eta}{2\Delta t}w^{k-1}_{n}\\
+\end{eqnarray*}
+\end{document}
